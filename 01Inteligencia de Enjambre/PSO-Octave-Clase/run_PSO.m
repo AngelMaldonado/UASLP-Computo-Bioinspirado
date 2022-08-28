@@ -4,21 +4,22 @@ clear all
 close all
 rng default
 
-LB=[0 0 0]; %lower bounds of variables
-UB=[10 10 10]; %upper bounds of variables
+LB=[0 0]; %lower bounds of variables
+UB=[5.9 5.9]; %upper bounds of variables
 
 % pso parameters values
-m=3; % number of variables
-n=100; % population size
-wmax=0.9; % inertia weight
-wmin=0.4; % inertia weight
-c1=2; % acceleration factor
-c2=2; % acceleration factor
+m=2; % number of variables
+n=10; % population size
+wmax=0.39999; % inertia weight
+wmin=0.9; % inertia weight
+c1=1; % acceleration factor
+c2=1.2; % acceleration factor
 
 % pso main program----------------------------------------------------start
 
-maxite=1000; % set maximum number of iteration
+maxite=10; % set maximum number of iteration
 maxrun=10; % set maximum number of runs need to be
+
 for run=1:maxrun
   run
 
@@ -32,7 +33,7 @@ for run=1:maxrun
   x=x0; % initial population
   v=0.1*x0; % initial velocity
   for i=1:n
-  f0(i,1)=ofun(x0(i,:));
+    f0(i,1)=rosenbrock(x0(i,:));
   end
   [fmin0,index0]=min(f0);
   pbest=x0; % initial pbest
@@ -70,7 +71,7 @@ for run=1:maxrun
     end
     % evaluating fitness
     for i=1:n
-      f(i,1)=ofun(x(i,:));
+      f(i,1)=rosenbrock(x(i,:));
     end
     % updating pbest and fitness
     for i=1:n
@@ -101,7 +102,7 @@ for run=1:maxrun
   % pso algorithm-----------------------------------------------------end
 
   gbest;
-  fvalue=10*(gbest(1)-1)^2+20*(gbest(2)-2)^2+30*(gbest(3)-3)^2;
+  fvalue=rosenbrock(gbest);
   fff(run)=fvalue;
   rgbest(run,:)=gbest;
   disp(sprintf('--------------------------------------'));
@@ -118,7 +119,7 @@ toc
 
 % PSO convergence characteristic
 plot(ffmin(1:ffite(bestrun),bestrun),'-k');
-xlabel('Iteration');
-ylabel('Fitness function value');
-title('PSO convergence characteristic')
+xlabel('# Iteracion');
+ylabel('Valor de fitness');
+title('PSO convergencia')
 %##########################################################################
