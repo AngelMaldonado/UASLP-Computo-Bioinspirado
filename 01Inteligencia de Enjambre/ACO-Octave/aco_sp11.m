@@ -14,17 +14,17 @@ clc;
 clear;
 close all;
 %% Problem Definition
-model=CreateModelFromFile("uk12_dist.txt");
+model=CreateModelFromFile("sp11_dist.txt");
 CostFunction=@(tour) TourLength(tour,model);
 nVar=model.n;
 %% ACO Parameters
-MaxIt=20;      % Maximum Number of Iterations
-nAnt=35;        % Number of Ants (Population Size)
+MaxIt=100;      % Maximum Number of Iterations
+nAnt=10;        % Number of Ants (Population Size)
 Q=1;
 tau0=10*Q/(nVar*mean(model.D(:)));	% Initial Phromone
 alpha=1;        % Phromone Exponential Weight
 beta=1;         % Heuristic Exponential Weight
-rho=0.5;       % Evaporation Rate
+rho=0.062;       % Evaporation Rate
 %% Initialization
 eta=1./model.D;             % Heuristic Information Matrix
 tau=tau0*ones(nVar,nVar);   % Phromone Matrix
