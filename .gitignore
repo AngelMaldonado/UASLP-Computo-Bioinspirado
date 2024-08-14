@@ -1,10 +1,11 @@
 *.pdf
 *.aux
-*.bbl
-*.blg
 *.fdb_latexmk
 *.fls
 *.log
+*.bbl
+*.blg
 *.out
 *.synctex.gz
 desktop.ini
+**/__pycache__

@@ -1,0 +1,1 @@
+{"rule":"LO_LOS","sentence":"^\\QUna vez codificado el problema a minimizar con las restricciones, se debe ejecutar el algoritmo genético para obtener resultados lo más cercanos a los siguientes valores:\\E$"}

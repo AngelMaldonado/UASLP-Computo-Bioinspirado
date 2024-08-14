@@ -1,0 +1,2 @@
+{"rule":"AGREEMENT_DET_ADJ","sentence":"^\\QLos valores obtenidos para las 10 variables en la primer corrida y la mejor corrida fueron los siguientes:\\E$"}
+{"rule":"AGREEMENT_DET_ADJ","sentence":"^\\QLos valores obtenidos (población) para las 10 variables en la primer corrida y la mejor corrida fueron los siguientes:\\E$"}

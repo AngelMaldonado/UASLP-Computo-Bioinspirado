@@ -1,0 +1,108 @@
+\documentclass[a4paper, 12pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[spanish]{babel}
+
+\title{\vspace{-3cm}Tarea 5: Investigación de Algoritmos Genéticos}
+\author{
+    Universidad Autónoma de San Luis Potosí\\ 
+    Facultad de Ingeniería - Ing. en Sistemas Inteligentes\\ 
+    \textbf{Materia:} Cómputo Bioinspirado \\
+    \textbf{Prof:} Dr. Cesar Augusto Puente Montejano  \\
+    \textbf{Autor:} Angel de Jesús Maldonado Juárez
+}
+\date{\textbf{Fecha de entrega:} miércoles 12 de octubre de 2022}
+
+\begin{document}
+\maketitle
+
+\begin{center}
+    \rule{\textwidth}{0.5pt}
+    \begin{abstract}
+        Los algoritmos heurísticos son un tipo de proceso que, con base en un criterio, seleccionan la mejor solución de un problema (optimización). Existen una gran variedad de algoritmos que son basados en actividades de la vida cotidiana y en la naturaleza, de estos últimos hay un tipo de algoritmos llamados \emph{algoritmos genéticos}, de los cuales su heurística gira en torno a procesos biológicos de la evolución y adaptación de las especies a lo largo de la historia.
+    \end{abstract}
+    \rule{\textwidth}{0.5pt}
+\end{center}
+
+\section{Orígenes}
+Los \emph{algoritmos genéticos} junto con otros métodos heurísticos para la búsqueda de soluciones óptimas a problemas, han tenido un auge en las áreas de computación e ingeniería, la principal razón por la que se le ha dado tanta importancia a estos tipos de algoritmos es que han demostrado ser sumamente efectivos en problemas de complejidad \emph{NP} (nondeterministic polynomial) o problemas demasiado abstractos como para generar un algoritmo tradicional.
+John Holland, investigador de la Universidad de Michigan publicó un artículo en julio de 1992 en el cual analiza a profundidad los procesos de \emph{selección natural} y \emph{reproducción sexual} que están presentes en los seres vivos para que estos garanticen su supervivencia, la preservación de sus propias especies, y su evolución para poder adaptarse a su entorno. El objetivo principal de Holland no era crear un método para la optimización o búsqueda de soluciones, sino crear un modelo para la \emph{adaptación}. Sin embargo, otros expertos en ciencias de la computación utilizaron la analogía que Holland realizó para implementarla en un algoritmo computacional que fuera capaz de solucionar problemas de los cuales resulta muy complicado encontrar la solución más óptima.
+
+\section{Proceso Biológico}
+Toda especie en el planeta inicia su historia desde las \textbf{células}, estas pequeñas unidades contienen información genética compleja y estructurada que caracteriza a cada especie (\textbf{genotipo}). Los individuos de una determinada especie tienen \textbf{variaciones} de la información genética, lo que hace a cada miembro de la especie distinguible de los otros tanto en su información genética como en sus características externas visibles y no visibles (\textbf{fenotipo}). Cuando la especie es sometida a interactuar en su entorno, los individuos con la genética adecuada tienen mayor posibilidad de sobrevivir, y como consecuencia engendran nuevas generaciones de la especie, mediante la \textbf{reproducción} con otros individuos, con una genética cada vez mejor adaptada al entorno, mientras que los demás individuos cuya genética no tuvo la suficiente adaptación simplemente mueren.
+
+Para el proceso de \emph{reproducción} las células de los individuos \textbf{seleccionados} también pasan por otro subproceso, en el cual se genera un genotipo nuevo con base en la selección de algunas características del genotipo de los individuos seleccionados (\textbf{meiosis}). Este nuevo genotipo puede también generar sus propias variaciones genéticas que lo distingan de los demás (\textbf{mutación}).
+
+\section{Implementación}
+La idea principal de los algoritmos genéticos es generar \emph{individuos artificiales} (soluciones) que también pasen por los mismos procesos naturales de \emph{selección}, \emph{reproducción}, \emph{mutación}, y \emph{adaptación} en un entorno o \emph{espacio}, también artificial, que representa un problema que se desee resolver (generalmente de optimización). Este espacio en el que los entes artificiales \emph{viven}, engloba las distintas posibilidades que los individuos pueden explorar, y al momento de probar la supervivencia de la población en el espacio del problema, existirá una \emph{función de evaluación} que indica, numéricamente, qué tan \emph{óptimo} es el genotipo de cada individuo de la población para encontrar una solución (\emph{fitness}). Posteriormente, se hará una \emph{selección} de individuos con base en el \emph{fitness} que estos recibieron, aquellos que fueron seleccionados se reproducirán entre sí utilizando algún \emph{operador genético} para generar nuevos candidatos para encontrar una solución al problema, los cuales además de tener una combinación de las características de los individuos seleccionados, también tiene características únicas gracias a la \emph{mutación}.
+
+Habiendo definido la idea general de los algoritmos genéticos, de forma explícita se puede definir un algoritmo genético con los siguientes pasos:
+
+\begin{enumerate}
+    \item Definir, estructurar, y codificar el espacio del problema.
+    \item Definir, estructurar, y codificar las características (genotipo) que tienen los individuos para explorar el espacio.
+    \item Generar un conjunto de $N$ individuos (posibles soluciones) con genotipos aleatorios. Se le llamará \emph{población actual}.
+    \item Probar cada individuo (posible solución) en el espacio del problema y asignar una calificación (\emph{fitness}).
+    \item Seleccionar $M$ ($M < N$) individuos de la población actual que hayan obtenido el mejor \emph{fitness}, y eliminar los $N - M$ individuos con peor fitness.
+    \item Aplicar el \emph{operador genético} a los $M$ individuos con mejor \emph{fitness} para generar $N - M$ nuevos individuos, que serán incluidos en el lugar de los $N - M$ individuos descartados de la \emph{población actual}.
+    \item Si ya se cumple la condición de terminación, finalizar, de lo contrario, repetir desde el paso 4.
+\end{enumerate}
+
+A continuación se describen los parámetros que necesita un algoritmo genético para su ejecución:
+
+\begin{itemize}
+    \item \textbf{Tamaño de la población ($N$)}: indica el número de individuos que habrá en la población y en sus siguientes generaciones. Si este parámetro es muy bajo, el algoritmo no explorará el espacio lo suficiente, y si es muy alto, será excesivamente lento.
+    \item \textbf{Probabilidad de cruzamiento (reproducción)}: es una medida que indica la posibilidad de que los padres se reproduzcan entre sí. Si no hay ninguna probabilidad de que exista cruzamiento, entonces los hijos serán copias exactas de los padres, de lo contrario, la genética de los hijos será producto del cruzamiento de los padres.
+    \item \textbf{Probabilidad de mutación}: indica la variación que tendrá el código genético de los hijos del de sus padres. Mientras más alto sea este valor, será más diferente.
+\end{itemize}
+
+\section{Operadores Genéticos}
+En los algoritmos genéticos existen 3 procesos clave que determinan el rumbo que toma la evolución de una población de posibles soluciones, estos son la \emph{selección}, el \emph{cruzamiento} o \emph{reproducción}, y la \emph{mutación}, en los cuales se implican algunos de los parámetros ya mencionados. Estos procesos pueden realizarse de distintas formas, y estas variantes se conocen como \textbf{operadores genéticos}.
+
+\subsection{Operadores de Selección}
+\subsubsection{Selección por Rueda de Ruleta}
+Para esta selección se toma como analogía una ruleta de casino, en la que el tamaño de las divisiones en las que puede caer la bola al girar la ruleta son proporcionales al valor \emph{fitness} que tiene cada individuo (solución).
+
+\subsubsection{Selección por Rango}
+Los individuos se ordenan con un rango numérico basado en el \emph{fitness} que tienen, y la selección se realiza teniendo en cuenta este \emph{ranking} de individuos, teniendo más posibilidad de elegir aquellos que tengan una posición más alta.
+
+\subsubsection{Selección Elitista}
+Durante el proceso de reproducción o cruzamiento, existe la posibilidad de que la mejor característica o cromosoma de la población desaparezca, en esta selección el mejor cromosoma se pasa a la siguiente generación, esta nueva generación puede ser una mutación de la actual, o un cruzamiento entre algunos de sus individuos, pero manteniendo siempre el mejor cromosoma.
+
+\subsubsection{Selección por Estado Estacionario}
+Cuando los individuos con mejor \emph{fitness} se hayan reproducido, los nuevos elementos reemplazan el lugar de aquellos que fueron descartados por tener el peor \emph{fitness} en la población actual.
+
+\subsubsection{Selección por Torneo}
+Se eligen de forma aleatoria un número de individuos, y el que tiene mayor \emph{fitness} se reproduce, sustituyendo los que tienen menor \emph{fitness}.
+
+\subsection{Operadores de Cruzamiento}
+\subsubsection{Cruzamiento de 1 Punto}
+Los dos cromosomas de los padres se cortan en algún punto. Después se copia la información del cromosoma de uno de los padres desde el inicio hasta el punto de corte, el resto se copia del otro padre.
+
+\subsubsection{Cruzamiento de 2 Puntos}
+Es el mismo proceso que el cruzamiento de 1 punto, pero con 2 puntos de corte, intercalando la información que se va a tomar en cuenta de cada padre en los puntos de corte.
+
+\subsubsection{Cruzamiento Uniforme}
+Cada genotipo o característica del nuevo individuo se obtiene de alguno de los padres utilizando un criterio de selección aleatorio.
+
+\subsection{Mutación}
+La mutación es un proceso opcional en algunos casos de implementación de los algoritmos genéticos, sin embargo, este contribuye mucho a la diversidad de las generaciones posteriores de una población de soluciones. Para el caso de una codificación genética binaria simplemente se invierte el bit de valor, pero si el genotipo tiene valores numéricos estos se sustituyen por otro número o simplemente intercambiando de posición con otro genotipo.
+
+\section{Aplicaciones de los Algoritmos Genéticos}
+La aplicación más común de los algoritmos genéticos, y la mayoría de algoritmos de inteligencia artificial, es en problemas de optimización, como se ha ido mencionando. Sin embargo, para que un problema pueda solucionarse utilizando un algoritmo genético tiene que cumplir con los siguientes criterios:
+
+\begin{itemize}
+    \item Su espacio de búsqueda debe estar delimitado dentro de un cierto rango.
+    \item Debe poder definirse una función \emph{fitness} (de aptitud) que indique que tan bueno o malo es un individuo (solución candidata).
+    \item Los individuos o soluciones deben codificarse de una forma que resulte relativamente fácil de implementar en la computadora.
+\end{itemize}
+
+\subsection{Procesos de Diseño}
+El diseño de casas, piezas mecánicas, gráfico, etc. Es una de las áreas de estudio más complicadas de cualquier ámbito, ya que es casi imposible crear un diseño totalmente adecuado a la solución que se espera, en este caso los algoritmos genéticos son capaces de generar configuraciones de diseño lo más cerca de ser el más óptimo.
+
+\subsection{Robótica e IA}
+En la inteligencia artificial y la robótica, los algoritmos genéticos juegan un papel muy importante en cuanto al \emph{aprendizaje}. Por ejemplo, los chat-bots suelen implementar un tipo de algoritmo genético que evoluciona con forme la conversación con otra persona avanza, y en general el chat-bot aprender para que la siguiente conversación que tenga genere respuestas y preguntas más inteligentes.
+
+\bibliographystyle{unsrt}
+\bibliography{refs}
+\nocite{*}
+\end{document}
